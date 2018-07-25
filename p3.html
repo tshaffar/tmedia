@@ -46,18 +46,14 @@ li a:hover:not(.active) {
 
 
 
-<style>
 
 <style>
-#mychart {
-           
-                position: absolute;
-                top:10px;
-                left:222px;
-                width: 100px;
-                height: 1200px;
-                background: red;
-            
+#rcorners1 {
+    border-radius: 25px;
+    background: #73AD21;
+    padding: 20px; 
+    width: 200px;
+    height: 150px;    
 }
 
 svg {
@@ -125,7 +121,8 @@ polyline{
 	<br></br> 
 	<img src="kiosk.jpg"  width="230" height="170">
 	
-	
+	<div id=instructions> 
+</div> 
 	
 	<!-- <div class="slider"></div> >
 </div> 
@@ -144,6 +141,7 @@ polyline{
 
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="the_data.js"></script>
+<script src="tal_helper.js"></script> 
 
 
 
@@ -519,6 +517,9 @@ dispatch.on("sliderChange.slider", function(value) {
 
 
 onMediaCheckBoxChange(null, "Afghanistan" ); 
+
+talDropText("a", "instructions", 5000, 100, 680, 400, "Explore: Note the small countries (Iraq,Isreal, Neatherlands) ", "yellow", "blue");
+talDropText("b", "instructions", 6000, 150, 720, 800, "...If coverage was propotional to popualation countries to the right on the graph would have way more articles", "red", "blue");
 
 </script>
 
