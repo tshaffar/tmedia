@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- background image --> 
+<style>
+body  {
+    background-image: url("wrinkled.jpg"); // images/header.jpg");
+	//background-repeat: no-repeat;
+	background-size: cover; 
+			}
+</style>
+
+<!-- navigation bar --> 
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+
+svg {
+	width: 100%;
+	height: 100%;
+	   position: absolute;
+                top:20;
+                left:000px;
+                width:1200px;
+                height: 900px;
+               
+}
+
+div.step1 {
+    position: absolute;
+    top: 200px;
+	left: 260px;
+    right: 0;
+}
+
+div.step2 {
+    position: absolute;
+    top: 370px;
+	left: 260px;
+    right: 0;
+}
+
+div.step3 {
+    position: absolute;
+    top: 540px;
+	left: 260px;
+    right: 0;
+}
+
+div.step4 {
+    position: absolute;
+    top: 710px;
+	left: 260px;
+    right: 0;
+}
+
+
+
+</style>
+
+</style>
+
+<head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="news_sample.js"></script> 
+	<script src="the_data.js"></script> 
+		<script src="tal_helper.js"></script> 
+	
+</head>
+
+<body>
+
+<ul>
+    <li><a                href="p0.html">start</a></li>
+	<li><a                href="p1.html">1</a></li>	
+	<li><a                href="p2.html">2</a></li>
+	<li><a                href="p3.html">3</a></li>
+	<li><a                href="p4.html">4</a></li>
+    <li><a class="active" href="p5.html">5</a></li>
+	<li><a                href="about.html">Next</a></li>
+	<li><a                href="about.html">About Visualization</a></li>
+</ul>
+
+
+<div id="my_header">
+	 	<h2><font color="blue"><center>Internationl Coverage By US News Media Outlets</center></font></h2>
+        <p><font color="blue"><center>How was data collected and processed?</center></font></p>
+		
+</div>
+
+<div class="step1"> 
+<img src="kaggle2.png"  height="150" width="200">
+</div> 
+
+<div class="step2"> 
+<img src="python.png"  height="150" width="200">
+</div> 
+
+<div class="step3"> 
+<img src="population.jpg"  height="150" width="200">
+</div> 
+
+<div class="step4"> 
+<img src="d3_logo.png"  height="150" width="200">
+</div> 
+
+
+<div id=instructions> 
+</div> 
+
+
+<br></br> 
+	<img src="kiosk.jpg"  width="230" height="170">
+</div> 
+
+
+
+
+<script>
+function addTalNewTicker(id, x,y,width,color,list) 
+{
+	var g = d3.select(id)
+		.append("svg") 
+		.append("g")
+		
+		g.append("rect")
+			.attr("id","rectticker") 
+			.attr("x", x)
+			.attr("y", y) 
+			.attr("width", width)
+			.attr("height", 30)
+			.attr("rx", 20 )
+			.attr("ry", 20 )
+			.attr("stroke","black")
+			.attr("stroke-width",5)
+			.attr("opacity","0.5") 
+			.attr("fill", color);
+			
+		g.append("text")
+		.attr("fill","white") 
+		.attr("x",x+10)
+		.attr("y",y+20)
+		.text(" ")
+		.transition()
+		.duration(2500)
+		.on("start", function repeat() {
+		  d3.active(this)
+			  .tween("text", function() {
+				var that = d3.select(this),
+					i = d3.interpolateNumber(that.text().replace(/,/g, ""), Math.random() * 1e6);
+				return function(t) { 
+						var h = Math.random() * list.length; 
+						that.text( list[Math.floor(h)].substring(0,100) ); };
+			  })
+			.transition()
+			  .delay(1200)
+			  .on("start", repeat);
+			
+		});
+
+}
+</script>
+
+<script>
+
+
+// Add News
+var headlines = getSampleHeadlines(); 
+var format = d3.format(",d");
+
+//addTalNewTicker("#newsticker", 250,50, 800, "blue",headlines);
+
+
+</script> 
+
+
+<script>
+
+
+
+talDropText("a", "instructions", 0,       500, 50,  650, "Step 1: Collect dataset from www.kagggle.com.snapcrack/all-new-news ", "red", "white");
+talDropText("b", "instructions", 1000,    550, 90, 600, "It contained raw text of stories gathered in 2015 to 2017 from 15 media outlets ", "blue", "black");
+
+talDropText("c", "instructions", 2000,    500, 220     , 650, "Step 2: Text of strories was passed through Python script and parsed for countries   ", "red", "white");
+talDropText("d", "instructions", 3000,    550, 220+40  , 600, "Special cases were countries like UK have multiple names ", "blue", "black");
+talDropText("f", "instructions", 4000,    550, 220+40*2, 600, "...UK is known is United Kingdon, England, Great Britain... ", "blue", "black");
+talDropText("g", "instructions", 5000,    550, 220+40*3, 600, "...Names like Georgia had to be elimated...as it can be a state or a country ", "blue", "black");
+
+talDropText("h", "instructions", 6000,    500, 390, 550, "Step 3: Gathered population Data", "red", "white");
+
+talDropText("i", "instructions", 7000,    500, 560, 650, "Step 4: Crated D3 charts", "red", "white");
+talDropText("j", "instructions", 8000,    550, 560+40, 600, "Note that even this text is using D3!", "blue", "black");
+
+
+</script> 
+
+
+
+
+
+	
+
+</body>

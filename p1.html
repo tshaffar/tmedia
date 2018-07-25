@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- background image --> 
+<style>
+body  {
+    background-image: url("wrinkled.jpg"); // images/header.jpg");
+	//background-repeat: no-repeat;
+	background-size: cover; 
+		
+		
+}
+</style>
+
+<!-- navigation bar --> 
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+</style>
+</head>
+
+
+
+<style>
+
+#my_media_check_boxes {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  top: 1x;
+  right: 1x;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+
+svg {
+	width: 100%;
+	height: 100%;
+	   position: absolute;
+                top:200px;
+                left:400px;
+                width:1200px;
+                height: 900px;
+               
+}
+
+path.slice{
+	stroke-width:2px;
+}
+
+polyline{
+	opacity: .3;
+	stroke: black;
+	stroke-width: 2px;
+	fill: none;
+}
+
+</style>
+<body>
+
+<ul>
+    <li><a                href="p0.html">start</a></li>
+	<li><a class="active" href="p1.html">1</a></li>	
+	<li><a                href="p2.html">2</a></li>
+	<li><a                href="p3.html">3</a></li>
+	<li><a                href="p4.html">4</a></li>
+    <li><a                href="p5.html">5</a></li>
+	<li><a                href="p0.html">Previous</a></li>
+	<li><a                href="p2.html">Next</a></li>
+	<li><a                href="about.html">About Visualization</a></li>
+</ul>
+
+
+<header>
+
+<div id="my_header">
+	 	<h2><font color="blue"><center>Internationl Coverage By US News Media Outlets</center></font></h2>
+        <p><font color="blue"><center>How international are my sources?</center></font></p>
+		<p><font color="black"><center>Select a media source.  What you see if the number of articles published by the source that cover a just the United States (national) and the number of articles that mention a country other than the United States</center></font></p>
+
+<!-- Chcek Boxes -->
+	<div id="my_media_check_boxes">	
+		<input type="checkbox" name="media" id="New York Times"    checked  onchange = "onMediaCheckBoxChange(this)" > New York Times<br>
+		<input type="checkbox" name="media" id="Washington Post"            onchange = "onMediaCheckBoxChange(this)" > Washington Post <br>
+		<input type="checkbox" name="media" id="CNN"                        onchange = "onMediaCheckBoxChange(this)" > CNN <br>
+		<input type="checkbox" name="media" id="Fox News"                   onchange = "onMediaCheckBoxChange(this)" > Fox News <br>
+		<input type="checkbox" name="media" id="Guardian"                   onchange = "onMediaCheckBoxChange(this)" > Guardian <br>
+		<input type="checkbox" name="media" id="Reuters"                    onchange = "onMediaCheckBoxChange(this)" > Reuters <br>
+		<input type="checkbox" name="media" id="NPR"                           onchange = "onMediaCheckBoxChange(this)" > NPR <br>
+		<input type="checkbox" name="media" id="New York Post"                           onchange = "onMediaCheckBoxChange(this)" > New York Post  <br>
+	
+		<br></br> 
+	<img src="kiosk.jpg"  width="230" height="170">
+	</div> 
+	
+<!-- Pie Chart -->
+	<div id="my_pie" class="my_pie">	
+	</div> 
+	
+
+</div>
+
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="the_data.js"></script>
+<script>
+
+var svg = d3.select("#my_pie")
+	.append("svg")
+	.append("g")
+
+svg.append("g")
+	.attr("class", "slices");
+svg.append("g")
+	.attr("class", "labels");
+svg.append("g")
+	.attr("class", "lines");
+
+var width = 960,
+    height = 450,
+	radius = Math.min(width, height) / 2;
+
+var pie = d3.layout.pie()
+	.sort(null)
+	.value(function(d) {
+		return d.value;
+	});
+
+var arc = d3.svg.arc()
+	.outerRadius(radius * 0.8)
+	.innerRadius(radius * 0.4);
+
+var outerArc = d3.svg.arc()
+	.innerRadius(radius * 0.9)
+	.outerRadius(radius * 0.9);
+
+svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+var key = function(d){ return d.data.label; };
+
+
+
+/*d3.select(".randomize")
+	.on("click", function(){
+		change(mapData());
+	});
+*/
+
+function change(data  ) {
+
+	/* ------- PIE SLICES -------*/
+	var slice = svg.select(".slices").selectAll("path.slice")
+		.data(pie(data), key);
+
+	slice.enter()
+		.insert("path")
+		.style("fill", function(d) { 
+				////alert( d.data.label); 
+				////alert( color(d.data.label) );
+				//return "RGB(241, 196, 11)";
+				return d.data.color; 
+				//return color(d.data.label); 
+				
+				})
+		.attr("class", "slice");
+
+	slice		
+		.transition().duration(1000)
+		.attrTween("d", function(d) {
+			this._current = this._current || d;
+			var interpolate = d3.interpolate(this._current, d);
+			this._current = interpolate(0);
+			return function(t) {
+				return arc(interpolate(t));
+			};
+		})
+
+	slice.exit()
+		.remove();
+
+	/* ------- TEXT LABELS -------*/
+
+	var text = svg.select(".labels").selectAll("text")
+		.data(pie(data), key);
+
+	text.enter()
+		.append("text")
+		.attr("dy", ".35em")
+		.text(function(d) {
+			return d.data.label;
+		});
+	
+	function midAngle(d){
+		return d.startAngle + (d.endAngle - d.startAngle)/2;
+	}
+
+	text.transition().duration(1000)
+		.attrTween("transform", function(d) {
+			this._current = this._current || d;
+			var interpolate = d3.interpolate(this._current, d);
+			this._current = interpolate(0);
+			return function(t) {
+				var d2 = interpolate(t);
+				var pos = outerArc.centroid(d2);
+				pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+				return "translate("+ pos +")";
+			};
+		})
+		.styleTween("text-anchor", function(d){
+			this._current = this._current || d;
+			var interpolate = d3.interpolate(this._current, d);
+			this._current = interpolate(0);
+			return function(t) {
+				var d2 = interpolate(t);
+				return midAngle(d2) < Math.PI ? "start":"end";
+			};
+		});
+
+	text.exit()
+		.remove();
+
+	/* ------- SLICE TO TEXT POLYLINES -------*/
+
+	var polyline = svg.select(".lines").selectAll("polyline")
+		.data(pie(data), key);
+	
+	polyline.enter()
+		.append("polyline");
+
+	polyline.transition().duration(1000)
+		.attrTween("points", function(d){
+			this._current = this._current || d;
+			var interpolate = d3.interpolate(this._current, d);
+			this._current = interpolate(0);
+			return function(t) {
+				var d2 = interpolate(t);
+				var pos = outerArc.centroid(d2);
+				pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+				return [arc.centroid(d2), outerArc.centroid(d2), pos];
+			};			
+		});
+	
+	polyline.exit()
+		.remove();
+};
+
+</script>
+
+
+
+
+
+
+<script> 
+function mapData (color, mediaColors){
+
+	var data = theData(); 
+	
+	var labels = color.domain();
+	return labels.map(function(label){
+		
+		//alert("hi"); 
+		var numAtricles = 0;
+		var n = label.indexOf("(int'l");
+		//alert(n);
+		if (n===-1) {
+		
+			// Count all US articles 
+			n = label.indexOf("(national");
+			media = label.substring(0,n); 
+			//alert(media); 
+			numAtricles = theData_NationalTotal(media); 
+		}
+		else {
+			media = label.substring(0,n); 
+			numAtricles = theData_InternationalTotal(media); 
+		}
+			
+		return { label: label + "("+parseInt(numAtricles)+")", 
+		         color: mediaColors[ label ], 
+				 value: numAtricles };		
+	});
+}
+
+
+function onMediaCheckBoxChange(element){
+
+	var entries = new Array(); 
+	var theColors = new Array(); 
+
+	var medias = [ "New York Times",
+               "Washington Post", 
+			   "CNN", 
+			   "Fox News", 
+			   "Guardian", 
+			   "Reuters",
+			   "NPR",
+			   "New York Post"];
+		
+
+	mediaColors = {} 
+	mediaColors["New York Times(national)"]     = "RGB(   0,  0,102)"; 
+	mediaColors["Washington Post(national)"]    = "RGB(   0,  0,153"; 
+	mediaColors["CNN(national)"]				= "RGB(   0,  0,204"; 
+	mediaColors["Fox News(national)"] 			= "RGB(   0,  0,255"; 
+	mediaColors["Guardian(national)"] 			= "RGB(  51,51,255"; 
+	mediaColors["Reuters(national)"]			= "RGB( 102,102,255"; 
+		mediaColors["NPR(national)"]			= "RGB( 0,102,153"; 
+		mediaColors["New York Post(national)"]			= "RGB( 0,51,102"; 
+	
+	mediaColors["New York Times(int'l)"]    = "RGB(102,0,51)";   
+	mediaColors["Washington Post(int'l)"]   = "RGB(153,0,76)";  
+	mediaColors["CNN(int'l)"]				= "RGB(202,0,102)";  
+	mediaColors["Fox News(int'l)"] 			= "RGB(255,0,127)";  
+	mediaColors["Guardian(int'l)"] 			= "RGB(255,51,153)";  
+	mediaColors["Reuters(int'l)"]			= "RGB(255,102,178)";  
+		mediaColors["NPR(int'l)"]			= "RGB(204,51,153)"; 
+		mediaColors["New York Post(int'l)"]			= "RGB( 204,0,102"; 
+		
+			
+for (var i=0; i<medias.length; i++) {
+	if (document.getElementById(medias[i]).checked) {
+		
+		entries.push (medias[i] + "(national)" );
+		theColors.push ( mediaColors[ medias[i]+"(national)" ]  ); 
+	}
+}
+
+for (var i=0; i<medias.length; i++) {
+	if (document.getElementById(medias[i]).checked) {
+		
+		entries.push (medias[i] + "(int'l)" );
+		theColors.push (  mediaColors[ medias[i]+"(int'l)" ] ); 
+	}
+}
+
+
+var color = d3.scale.ordinal()
+	.domain(entries)
+	.range( theColors ); 
+
+////alert( color("abc")); 
+	
+var theData = mapData(color, mediaColors);
+change( theData );
+
+}
+</script> 
+
+
+<script>
+// Driver 
+onMediaCheckBoxChange(null);
+
+</script>
+
+
+</body>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<style>
+body  {
+    background-image: url("wrinkled.jpg"); // images/header.jpg");
+	//background-repeat: no-repeat;
+	background-size: cover; 
+		
+		
+}
+
+svg {
+	width: 100%;
+	height: 100%;
+	   position: absolute;
+                top:0;
+                left:000px;
+                width:1200px;
+                height: 900px;
+               
+}
+
+</style> 
+
+
+
+<html>
+<meta charset="utf-8">
+
+<head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="news_sample.js"></script> 
+	<script src="the_data.js"></script> 
+	
+</head>
+
+<body> 
+
+<div id="webdata">
+ </div>
+
+<div id=newsticker> 
+</div> 
+
+<div id=countryticker> 
+</div> 
+
+<script>
+
+
+var headlines = getSampleHeadlines(); 
+var format = d3.format(",d");
+
+
+var pop = thePopulation();
+var contries = [];
+
+for (var key in pop) {
+    contries.push( key );
+}
+ 
+	var medias = [ "New York Times",
+               "Washington Post", 
+			   "CNN", 
+			   "Fox News", 
+			   "Guardian", 
+			   "Reuters",
+			   "NPR",
+			   "New York Post"];
+
+/*
+  .transition()
+    .duration(2500)
+    .on("start", function repeat() {
+      d3.active(this)
+          .tween("text", function() {
+            var that = d3.select(this),
+                i = d3.interpolateNumber(that.text().replace(/,/g, ""), Math.random() * 1e6);
+            return function(t) { 
+					var h = Math.random() * 500; 
+					that.text( headlines[Math.floor(h)].substring(0,100) ); };
+          })
+        .transition()
+          .delay(1500)
+          .on("start", repeat);
+    });
+*/
+
+function addTalNewTicker(id, x,y,width,color,list) 
+{
+	var g = d3.select(id)
+		.append("svg") 
+		.append("g")
+		
+		g.append("rect")
+			.attr("id","rectticker") 
+			.attr("x", x)
+			.attr("y", y) 
+			.attr("width", width)
+			.attr("height", 30)
+			.attr("rx", 20 )
+			.attr("ry", 20 )
+			.attr("stroke","black")
+			.attr("stroke-width",5)
+			.attr("opacity","0.5") 
+			.attr("fill", color);
+			
+		g.append("text")
+		.attr("fill","white") 
+		.attr("x",x+10)
+		.attr("y",y+20)
+		.text(" ")
+		.transition()
+		.duration(2500)
+		.on("start", function repeat() {
+		  d3.active(this)
+			  .tween("text", function() {
+				var that = d3.select(this),
+					i = d3.interpolateNumber(that.text().replace(/,/g, ""), Math.random() * 1e6);
+				return function(t) { 
+						var h = Math.random() * list.length; 
+						that.text( list[Math.floor(h)].substring(0,100) ); };
+			  })
+			.transition()
+			  .delay(1200)
+			  .on("start", repeat);
+		});
+
+}
+
+addTalNewTicker("#newsticker", 100,150, 800, "black",contries);
+addTalNewTicker("#newsticker", 100,250, 800, "yellow",medias);
+
+/*
+var g = d3.select("#newsticker")
+	.append("svg") 
+	.append("g")
+	
+	g.append("rect")
+		.attr("id","rectticker") 
+		.attr("x", 100)
+		.attr("y", 150) 
+		.attr("width", 800)
+		.attr("height", 30)
+		.attr("rx", 20 )
+		.attr("ry", 20 )
+		.attr("stroke","black")
+		.attr("stroke-width",5)
+		.attr("opacity","0.5") 
+		.attr("fill", "red");
+		
+	g.append("text")
+	.attr("fill","white") 
+	.attr("x","110")
+	.attr("y","170")
+	.text("hi!how are you? ")
+	.transition()
+    .duration(2500)
+    .on("start", function repeat() {
+      d3.active(this)
+          .tween("text", function() {
+            var that = d3.select(this),
+                i = d3.interpolateNumber(that.text().replace(/,/g, ""), Math.random() * 1e6);
+            return function(t) { 
+					var h = Math.random() * 500; 
+					that.text( headlines[Math.floor(h)].substring(0,100) ); };
+          })
+        .transition()
+          .delay(1500)
+          .on("start", repeat);
+    });
+*/
+		
+		
+var g = d3.select("#countryticker")
+	.append("svg") 
+	.append("g")
+	
+	g.append("rect")
+		.attr("id","rectticker") 
+		.attr("x", 100)
+		.attr("y", 200) 
+		.attr("width", 800)
+		.attr("height", 30)
+		.attr("rx", 20 )
+		.attr("ry", 20 )
+		.attr("stroke","black")
+		.attr("stroke-width",5)
+		.attr("opacity","0.5") 
+		.attr("fill", "blue");
+		
+	g.append("text")
+	.attr("fill","white") 
+	.attr("x","110")
+	.attr("y","220")
+	.text("hi!how are you? ")
+	.transition()
+    .duration(2500)
+    .on("start", function repeat() {
+      d3.active(this)
+          .tween("text", function() {
+            var that = d3.select(this),
+                i = d3.interpolateNumber(that.text().replace(/,/g, ""), Math.random() * 1e6);
+            return function(t) { 
+					var h = Math.random() * 500; 
+					that.text( headlines[Math.floor(h)].substring(0,100) ); };
+          })
+        .transition()
+          .delay(1500)
+          .on("start", repeat);
+    });
+		
+
+var g = d3.select("#webdata")
+	.append("svg") 
+	.append("g")
+	
+	
+	g.append("rect")
+		.attr("id","r1") 
+		.attr("x", 0)
+		.attr("y", 0) 
+		.attr("width", 300)
+		.attr("height", 40)
+		.attr("fill", "blue");
+		
+	g.append("rect")
+		.attr("id","r2") 
+		.attr("x", 20)
+		.attr("y", 0) 
+		.attr("width", 300)
+		.attr("height", 40)
+		.attr("fill", "green");
+	
+	
+	g.append("text")
+	.attr("id","t1") 
+	.attr("text","hi")
+	.attr("fill","white") 
+	.attr("x","10")
+	.attr("y","18")
+	.text("hi!how are you? "); 
+	
+ d3.select("#r1")
+    .transition("playStage1")
+      .attr("y",100) 
+	  .style('stroke', 'green')
+      //.ease('bounce')
+      .duration(1000);
+	
+ d3.select("#t1")
+    .transition("playStage1")
+      .attr("y",118) 
+     //.ease('bounce')
+      .duration(1000);
+
+</script>
+
+</body> 
+<html>

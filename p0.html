@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- background image --> 
+<style>
+body  {
+    background-image: url("wrinkled.jpg"); // images/header.jpg");
+	//background-repeat: no-repeat;
+	background-size: cover; 
+			}
+</style>
+
+<!-- navigation bar --> 
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+
+svg {
+	width: 100%;
+	height: 100%;
+	   position: absolute;
+                top:20;
+                left:000px;
+                width:1200px;
+                height: 900px;
+               
+}
+
+</style>
+
+<head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="news_sample.js"></script> 
+	<script src="the_data.js"></script> 
+		<script src="tal_helper.js"></script> 
+	
+</head>
+
+<body>
+
+<ul>
+    <li><a class="active" href="p0.html">start</a></li>
+	<li><a                href="p1.html">1</a></li>	
+	<li><a                href="p2.html">2</a></li>
+	<li><a                href="p3.html">3</a></li>
+	<li><a                href="p4.html">4</a></li>
+    <li><a                href="p5.html">5</a></li>
+	<li><a                href="p1.html">Next</a></li>
+	<li><a                href="about.html">About Visualization</a></li>
+</ul>
+
+
+<div id="my_header">
+	 	<h2><font color="blue"><center>Internationl Coverage By US News Media Outlets</center></font></h2>
+        <p><font color="blue"><center>How international are my sources?</center></font></p>
+		
+</div>
+
+
+<div id=newsticker> 
+</div> 
+
+<div id=instructions> 
+</div> 
+
+
+<br></br> 
+	<img src="kiosk.jpg"  width="230" height="170">
+</div> 
+
+
+
+
+<script>
+function addTalNewTicker(id, x,y,width,color,list) 
+{
+	var g = d3.select(id)
+		.append("svg") 
+		.append("g")
+		
+		g.append("rect")
+			.attr("id","rectticker") 
+			.attr("x", x)
+			.attr("y", y) 
+			.attr("width", width)
+			.attr("height", 30)
+			.attr("rx", 20 )
+			.attr("ry", 20 )
+			.attr("stroke","black")
+			.attr("stroke-width",5)
+			.attr("opacity","0.5") 
+			.attr("fill", color);
+			
+		g.append("text")
+		.attr("fill","white") 
+		.attr("x",x+10)
+		.attr("y",y+20)
+		.text(" ")
+		.transition()
+		.duration(2500)
+		.on("start", function repeat() {
+		  d3.active(this)
+			  .tween("text", function() {
+				var that = d3.select(this),
+					i = d3.interpolateNumber(that.text().replace(/,/g, ""), Math.random() * 1e6);
+				return function(t) { 
+						var h = Math.random() * list.length; 
+						that.text( list[Math.floor(h)].substring(0,100) ); };
+			  })
+			.transition()
+			  .delay(1200)
+			  .on("start", repeat);
+			
+		});
+
+}
+</script>
+
+<script>
+// Add News
+var headlines = getSampleHeadlines(); 
+var format = d3.format(",d");
+
+addTalNewTicker("#newsticker", 250,50, 800, "blue",headlines);
+
+// Add Media 
+var medias = [ "New York Times",
+               "Washington Post", 
+			   "CNN", 
+			   "Fox News", 
+			   "Guardian", 
+			   "Reuters",
+			   "NPR",
+			   "New York Post"];
+
+addTalNewTicker("#newsticker", 250,100, 800, "green",medias);
+
+
+// Add Countries
+var data = theData(); 
+
+// Make a list of all the countries 
+dataMedia = data["New York Times"];
+
+keys = Object.keys(dataMedia); //data2.keys(); 
+
+countries = [];
+
+for (var key in dataMedia) {
+
+	countries.push( key); 
+	
+}
+addTalNewTicker("#newsticker", 250,150, 800, "red",countries);
+
+
+</script> 
+
+
+<script>
+
+talDropText("a", "instructions", 0, 100, 250, 950, "We sampled stories from 8 media outlets over a year...", "yellow", "blue");
+talDropText("b", "instructions", 1000, 100, 300, 950, "...with the aim is to see how informed about the world a reader would be based on the content ", "yellow", "blue");
+talDropText("c", "instructions", 2000, 100, 350, 950, "...In other words, would watching FOX Nwws makes a person more or less informed than listening to NPR? ", "yellow", "blue");
+
+talDropText("e", "instructions", 3000, 100, 400, 950, "This is an interactive slid show visual narraive  ", "yellow", "blue");
+
+talDropText("f", "instructions", 5000, 100, 500, 950, "click Next on the top to continue ", "yellow", "red");
+
+
+
+
+
+</script> 
+
+
+
+
+
+	
+
+</body>

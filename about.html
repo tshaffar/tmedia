@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- background image --> 
+<style>
+body  {
+    background-image: url("wrinkled.jpg"); // images/header.jpg");
+	//background-repeat: no-repeat;
+	background-size: cover; 
+			}
+</style>
+
+<!-- navigation bar --> 
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+
+svg {
+	width: 100%;
+	height: 100%;
+	   position: absolute;
+                top:20;
+                left:000px;
+                width:1200px;
+                height: 900px;
+               
+}
+
+div.step1 {
+    position: absolute;
+    top: 200px;
+	left: 260px;
+    right: 0;
+}
+
+div.step2 {
+    position: absolute;
+    top: 370px;
+	left: 260px;
+    right: 0;
+}
+
+div.step3 {
+    position: absolute;
+    top: 540px;
+	left: 260px;
+    right: 0;
+}
+
+div.step4 {
+    position: absolute;
+    top: 710px;
+	left: 260px;
+    right: 0;
+}
+
+
+
+</style>
+
+</style>
+
+<head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="news_sample.js"></script> 
+	<script src="the_data.js"></script> 
+		<script src="tal_helper.js"></script> 
+	
+</head>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+
+
+<body>
+
+<ul>
+    <li><a                href="p0.html">start</a></li>
+	<li><a                href="p1.html">1</a></li>	
+	<li><a                href="p2.html">2</a></li>
+	<li><a                href="p3.html">3</a></li>
+	<li><a                href="p4.html">4</a></li>
+    <li><a class="active" href="p5.html">5</a></li>
+	<li><a                href="about.html">Next</a></li>
+	<li><a                href="about.html">About Visualization</a></li>
+</ul>
+
+
+<div id="my_header">
+	 	<h2><font color="blue">About Visualization</font></h2>
+        <p><font color="blue">Essay Table</font></p>
+		
+</div>
+
+<table>
+  <col width="180">
+  <col width="400">
+  <tr>
+    <th>Feature</th>
+    <th>Info</th> 
+  </tr>
+  <tr>
+    <td><img src="shot_p0.JPG" alt="" border=3 height=200 width=300></img></td>
+    <td>  <h3>Start Screen</h3> 
+		  Introduces the user to the visual narrative.  This is an interactive slide show.  Use of transistions of text for v3 is shows.  Note the quickly changing news ticker box
+		  </td>
+  </tr>
+  <tr>
+    <td><img src="shot_p1.JPG" alt="" border=3 height=200 width=300></img></td>
+    <td>  <h3>Screen 1</h3> 
+		  Show animated use of D3 pie chart. Parameters on the side (media sources like "New York Times" allows the user to control the chart.  
+		  </td>
+  </tr>
+  <tr>
+    <td><img src="shot_p2.JPG" alt="" border=3 height=200 width=300></img></td>
+    <td>  <h3>Screen 2</h3> 
+		  Use of D3 bubble chart.  I was not able to get this to be animated. 
+		  </td>
+  </tr>
+    <tr>
+    <td><img src="shot_p3.JPG" alt="" border=3 height=200 width=300></img></td>
+    <td>  <h3>Screen 3</h3> 
+		 Use of D3 scatter chart (with tranisstion) and annotations. Note controls and triggers on the side that allows a user to explore the chart. 
+		 Text that makes the bottom part of the chart hard to see in detail is kept on purpose to motivate user to explore. 
+		  </td>
+  </tr>
+    <tr>
+    <td><img src="shot_p4.JPG" alt="" border=3 height=200 width=300></img></td>
+    <td>  <h3>Screen 4</h3> 
+		  Another use of animated pie chart used for exploration with a combobox trigger. 
+		  </td>
+  </tr>
+     <tr>
+    <td><img src="shot_p5.JPG" alt="" border=3 height=200 width=300></img></td>
+    <td>  <h3>Screen 5</h3> 
+		  Another use of D3 transision in explaining how the data was collected.  
+		  </td>
+  </tr>
+    <tr>
+    <td><img src="shot_nav.JPG" alt="" border=3 height=50 width=300></img></td>
+    <td>  <h3>Navigation</h3> 
+		  Use of Navigation allows the use to navigate the narrative.  Next, Previous as well as direct access (1,2,3...) is provided to the user.
+		  </td>
+  </tr>
+    </tr>
+    <tr>
+    <td><img src="urbana.JPG" alt="" border=3 height=50 width=300></img></td>
+    <td>  <h3>Author</h3> 
+		  This navigation was created by Tal Shaffar for the Data Visulization Class (CS498) @ University of Illinois at Urbana–Champaign.  July 2018.  shaffar2@illinois.edu 
+		  </td>
+  </tr>
+</table>
+
+
+</body>

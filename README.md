@@ -1,2 +1,1 @@
-# tmedia
-Exploring Media International Reporting
+# Media
